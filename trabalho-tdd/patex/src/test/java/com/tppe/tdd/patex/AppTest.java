@@ -29,4 +29,10 @@ class AppTest {
         this.patexapp = new Patex("analysisTime.out");
         assertEquals("analysisTime.out", this.patexapp.chosenFile.getPath());
     }
+
+    @Test()
+    void testIfFileIsReadable(){
+        this.patexapp = new Patex("analysisTime.out");
+        assertEquals(true, this.patexapp.isChosenFileReadable());
+    }
 }
