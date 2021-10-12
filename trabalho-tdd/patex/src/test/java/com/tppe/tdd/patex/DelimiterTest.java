@@ -16,8 +16,14 @@ public class DelimiterTest {
     
     @Test()
     void testDelimiterChoosing() throws FileNotFoundException {
-        
-        assertEquals(";",this.patexapp.chooseDelimiter());
+        this.patexapp.chooseDelimiter();
+        assertEquals(";",patexapp.delimiter);
+    }
+
+    @Test()
+    void testDelimiterChoosing2() throws FileNotFoundException {
+        this.patexapp.chooseDelimiter();
+        assertEquals(",",patexapp.delimiter);
     }
     
 }

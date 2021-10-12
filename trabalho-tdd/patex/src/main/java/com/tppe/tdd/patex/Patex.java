@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 public class Patex {
     private JFileChooser fc;
     File chosenFile;
+    String delimiter = null;
 
     Patex(){
         this.fc = new JFileChooser();
@@ -41,8 +42,9 @@ public class Patex {
         }
     }
 
-    String chooseDelimiter() {
-        return ";";
+    void chooseDelimiter() {
+        this.delimiter = JOptionPane.showInputDialog("Selecione o Delimitador utilizado entre os valores");
+    
     }
 
     void start(){
