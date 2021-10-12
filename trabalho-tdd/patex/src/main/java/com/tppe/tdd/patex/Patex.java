@@ -20,12 +20,16 @@ public class Patex {
         this.chosenFile = new File(pathToFile);
     }
 
+    Boolean isFileChosen(){
+        return this.chosenFile != null;
+    }
+
     Boolean isChosenFileReadable() {
         return true;
     }
 
     void chooseFile() throws FileNotFoundException{
-        if(this.chosenFile == null){
+        if(!this.isFileChosen()){
             this.fc.setDialogTitle("Choose the file you want to parse");
             this.fc.setApproveButtonText("Choose");
             int approve = this.fc.showOpenDialog(null);
