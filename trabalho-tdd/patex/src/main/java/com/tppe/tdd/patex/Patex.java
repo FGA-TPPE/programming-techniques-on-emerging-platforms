@@ -15,17 +15,24 @@ public class Patex {
         this.chosenFile = null;
     }
 
+    Patex(String pathToFile){
+        this.fc = new JFileChooser();
+        this.chosenFile = new File(pathToFile);
+    }
+
     void chooseFile() throws FileNotFoundException{
-        this.fc.setDialogTitle("Choose the file you want to parse");
-        this.fc.setApproveButtonText("Choose");
-        int approve = this.fc.showOpenDialog(null);
-        if(approve == this.fc.APPROVE_OPTION){
-            this.chosenFile = this.fc.getSelectedFile();
-            // JOptionPane.showMessageDialog(null, "Chosen file: \n" +
-            //     chosenFile.getAbsolutePath());
+        if(this.chosenFile == null){
+            this.fc.setDialogTitle("Choose the file you want to parse");
+            this.fc.setApproveButtonText("Choose");
+            int approve = this.fc.showOpenDialog(null);
+            if(approve == this.fc.APPROVE_OPTION){
+                this.chosenFile = this.fc.getSelectedFile();
+                // JOptionPane.showMessageDialog(null, "Chosen file: \n" +
+                //     chosenFile.getAbsolutePath());
+            }
+            else
+                throw new FileNotFoundException("No file was chosen");
         }
-        else
-            throw new FileNotFoundException("No file was chosen");
     }
 
     void start(){
