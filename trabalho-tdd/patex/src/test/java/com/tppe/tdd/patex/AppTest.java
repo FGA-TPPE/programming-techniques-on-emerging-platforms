@@ -21,6 +21,9 @@ class AppTest {
 
     @Test()
     void testFileChoosing() throws FileNotFoundException {
+        /* Since Patex uses a dialog in which the user needs to choose the file,
+        for this test to pass the user is required to select any file and hit the
+        choose button */
         this.patexapp.chooseFile();
         assertNotNull(this.patexapp.chosenFile);
     }
