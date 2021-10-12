@@ -41,9 +41,14 @@ public class Patex {
         }
     }
 
+    String chooseDelimiter() {
+        return ";";
+    }
+
     void start(){
         try {
             this.chooseFile();
+            this.chooseDelimiter();
         } catch (FileNotFoundException e){
             JOptionPane.showMessageDialog(null, "You must choose a file to continue");
         } catch (Exception e) {
@@ -54,4 +59,5 @@ public class Patex {
     void stop(){
         JOptionPane.showMessageDialog(null, "Thank you for using Patex !");
     }
+
 }
