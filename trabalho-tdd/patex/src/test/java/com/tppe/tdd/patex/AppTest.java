@@ -2,6 +2,7 @@ package com.tppe.tdd.patex;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.FileNotFoundException;
@@ -21,5 +22,11 @@ class AppTest {
     void testFileChoosing() throws FileNotFoundException {
         this.patexapp.chooseFile();
         assertNotNull(this.patexapp.chosenFile);
+    }
+
+    @Test()
+    void testFileAlreadyChosen(){
+        this.patexapp = new Patex("analysisTime.out");
+        assertEquals("analysisTime.out", this.patexapp.chosenFile.getPath());
     }
 }
