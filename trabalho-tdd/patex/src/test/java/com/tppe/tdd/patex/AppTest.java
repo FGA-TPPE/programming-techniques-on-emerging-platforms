@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileNotFoundException;
 
@@ -22,6 +23,15 @@ class AppTest {
     void testFileChoosing() throws FileNotFoundException {
         this.patexapp.chooseFile();
         assertNotNull(this.patexapp.chosenFile);
+    }
+
+    @Test()
+    void testFileNotChosen() throws FileNotFoundException {
+        /* Since Patex uses a dialog in which the user needs to choose the file,
+        for this test to pass the user is required to hit the cancel button */
+        assertThrows(FileNotFoundException.class, () ->
+            this.patexapp.chooseFile()
+        );
     }
 
     @Test()
