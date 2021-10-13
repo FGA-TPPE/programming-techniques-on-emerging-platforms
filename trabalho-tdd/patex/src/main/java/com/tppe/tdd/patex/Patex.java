@@ -2,6 +2,8 @@ package com.tppe.tdd.patex;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -39,6 +41,10 @@ public class Patex {
         return true;
     }
 
+    String returnOutputPath() {
+        return this.fc.getSelectedFile().getAbsolutePath();
+    }
+
     void chooseFile() throws FileNotFoundException{
         if(!this.isFileChosen()){
             this.fc.setDialogTitle("Choose the file you want to parse");
@@ -61,7 +67,18 @@ public class Patex {
             this.delimiter.length() == 2 && !this.delimiter.startsWith("\\")
         )
             throw new DelimitadorInvalidoException("O Delimitador deve ser um caracter ou deve estar precedido do '\\' ");
-        System.out.println(this.delimiter.length());
+    }
+
+    void OutputPathChoose() throws IOException {
+        this.fc.showSaveDialog(null);
+        String path = this.fc.getSelectedFile().getAbsolutePath();
+
+        try{
+            FileWriter fileWriter = new FileWriter(path,false);
+            fileWriter.close();
+        }catch(IOException exception){
+            throw exception;
+        }
     }
 
     void start(){
@@ -80,5 +97,6 @@ public class Patex {
     void stop(){
         JOptionPane.showMessageDialog(null, "Thank you for using Patex !");
     }
+
 
 }

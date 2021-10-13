@@ -8,7 +8,7 @@ public final class App {
 
     public static void main(String[] args) {
         Patex patex = new Patex();
-
+        
         patex.start();
         patex.stop();
     }
