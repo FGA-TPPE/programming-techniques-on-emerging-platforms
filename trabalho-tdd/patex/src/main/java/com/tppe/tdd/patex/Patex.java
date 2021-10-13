@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import com.tppe.tdd.patex.Exceptions.DelimitadorInvalidoException;
+
 public class Patex {
     private JFileChooser fc;
     File chosenFile;
@@ -42,9 +44,13 @@ public class Patex {
         }
     }
 
-    void chooseDelimiter() {
-        this.delimiter = JOptionPane.showInputDialog("Selecione o Delimitador utilizado entre os valores");
-    
+    void chooseDelimiter() throws DelimitadorInvalidoException{
+        String result = JOptionPane.showInputDialog("Selecione o Delimitador utilizado entre os valores");
+        if( result.length()>2 ||
+            result.length() == 2 && !result.startsWith("/") 
+        )    
+            throw new DelimitadorInvalidoException("O Delimitador deve ser um caracter ou deve estar precedido do '/' ");
+            this.delimiter = result;
     }
 
     void start(){

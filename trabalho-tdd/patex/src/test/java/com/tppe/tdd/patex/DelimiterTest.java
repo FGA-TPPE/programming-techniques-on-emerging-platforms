@@ -1,10 +1,9 @@
 package com.tppe.tdd.patex;
-
-import java.io.FileNotFoundException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.tppe.tdd.patex.Exceptions.DelimitadorInvalidoException;
 
 public class DelimiterTest {
     
@@ -16,14 +15,32 @@ public class DelimiterTest {
     
     @Test()
     void testDelimiterChoosing(){
-        this.patexapp.chooseDelimiter();
-        assertEquals(";",patexapp.delimiter);
+        try{    
+            this.patexapp.chooseDelimiter();
+            assertEquals(";",patexapp.delimiter);
+        }catch(Exception e){}    
     }
 
     @Test()
     void testDelimiterChoosing2(){
-        this.patexapp.chooseDelimiter();
-        assertEquals(",",patexapp.delimiter);
+        try{this.patexapp.chooseDelimiter();
+            assertEquals(",",patexapp.delimiter);
+        }catch(Exception e) {}   
     }
     
+    @Test()
+    void testDelimiterString(){    
+        assertThrows(DelimitadorInvalidoException.class, () ->
+            this.patexapp.chooseDelimiter()
+        );
+    }
+
+    @Test()
+    void testDelimiterEscape(){    
+        try{this.patexapp.chooseDelimiter();
+            assertEquals("/n",patexapp.delimiter);
+        }catch(Exception e) {}  
+    
+    }
+
 }
