@@ -25,6 +25,12 @@ public class Patex {
         this.delimiter = null;
     }
 
+    Patex(String pathToFile, String delimiter){
+        this.fc = new JFileChooser();
+        this.chosenFile = new File(pathToFile);
+        this.delimiter = delimiter;
+    }
+
     Boolean isFileChosen(){
         return this.chosenFile != null;
     }
