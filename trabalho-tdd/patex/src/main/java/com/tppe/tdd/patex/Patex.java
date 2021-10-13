@@ -53,12 +53,15 @@ public class Patex {
     }
 
     void chooseDelimiter() throws DelimitadorInvalidoException{
-        String result = JOptionPane.showInputDialog("Selecione o Delimitador utilizado entre os valores");
-        if( result.length()>2 ||
-            result.length() == 2 && !result.startsWith("/")
-        )
-            throw new DelimitadorInvalidoException("O Delimitador deve ser um caracter ou deve estar precedido do '/' ");
+        if(this.delimiter == null){
+            String result = JOptionPane.showInputDialog("Selecione o Delimitador utilizado entre os valores");
             this.delimiter = result;
+        }
+        if( this.delimiter.length()>2 ||
+            this.delimiter.length() == 2 && !this.delimiter.startsWith("\\")
+        )
+            throw new DelimitadorInvalidoException("O Delimitador deve ser um caracter ou deve estar precedido do '\\' ");
+        System.out.println(this.delimiter.length());
     }
 
     void start(){
@@ -67,6 +70,8 @@ public class Patex {
             this.chooseDelimiter();
         } catch (FileNotFoundException e){
             JOptionPane.showMessageDialog(null, "You must choose a file to continue");
+        } catch (DelimitadorInvalidoException e){
+            JOptionPane.showMessageDialog(null, "Invalid delimiter");
         } catch (Exception e) {
             System.out.println("Unexpected exception occurred");
         }
