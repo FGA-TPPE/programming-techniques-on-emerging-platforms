@@ -1,5 +1,6 @@
 package com.tppe.tdd.patex;
 
+import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -7,7 +8,7 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
+import com.tppe.tdd.patex.Exceptions.EscritaNãoPermitidaException;
 import com.tppe.tdd.patex.Exceptions.DelimitadorInvalidoException;
 
 public class Patex {
@@ -69,11 +70,14 @@ public class Patex {
             throw new DelimitadorInvalidoException("O Delimitador deve ser um caracter ou deve estar precedido do '\\' ");
     }
 
-    void OutputPathChoose() throws IOException {
+    void OutputPathChoose() throws IOException,EscritaNãoPermitidaException {
         this.fc.showSaveDialog(null);
         String path = this.fc.getSelectedFile().getAbsolutePath();
-
         try{
+            if(!this.fc.getCurrentDirectory().canWrite()){
+                JOptionPane.showMessageDialog(null,"Directory without write permission");
+                throw new EscritaNãoPermitidaException("Directory without write permission") ;
+            }
             FileWriter fileWriter = new FileWriter(path,false);
             fileWriter.close();
         }catch(IOException exception){
@@ -83,15 +87,20 @@ public class Patex {
 
     void start(){
         try {
-            this.chooseFile();
+            //this.chooseFile();
             this.chooseDelimiter();
+            OutputPathChoose();
         } catch (FileNotFoundException e){
             JOptionPane.showMessageDialog(null, "You must choose a file to continue");
         } catch (DelimitadorInvalidoException e){
             JOptionPane.showMessageDialog(null, "Invalid delimiter");
-        } catch (Exception e) {
+        } catch (EscritaNãoPermitidaException e) {
+            JOptionPane.showMessageDialog(null,"Directory without write permission");
+        }catch (Exception e) {
             System.out.println("Unexpected exception occurred");
         }
+
+        
     }
 
     void stop(){
