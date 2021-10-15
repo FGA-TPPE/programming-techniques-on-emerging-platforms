@@ -96,9 +96,9 @@ public class Patex {
 
     void start(){
         try {
-            //this.chooseFile();
+            this.chooseFile();
             this.chooseDelimiter();
-            OutputPathChoose();
+            this.OutputPathChoose();
         } catch (FileNotFoundException e){
             JOptionPane.showMessageDialog(null, "You must choose a file to continue");
         } catch (DelimitadorInvalidoException e){
