@@ -10,7 +10,7 @@ public class OutputFormatTest extends AppTest {
     }
 
     @Test()
-    void testOutputFormatChoosing(){
+    void testOutputFormatChoosing() throws Exception{
         assertEquals(true, this.patexapp.choseOutputFormat());
     }
 }
