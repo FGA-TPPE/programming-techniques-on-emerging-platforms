@@ -65,13 +65,18 @@ public class Patex {
 
     void chooseDelimiter() throws DelimitadorInvalidoException{
         if(this.delimiter == null){
-            String result = JOptionPane.showInputDialog("Selecione o Delimitador utilizado entre os valores");
+            String result = JOptionPane.showInputDialog(
+                "Inform the delimiter to separate characters"
+            );
             this.delimiter = result;
         }
         if( this.delimiter.length()>2 ||
             this.delimiter.length() == 2 && !this.delimiter.startsWith("\\")
         )
-            throw new DelimitadorInvalidoException("O Delimitador deve ser um caracter ou deve estar precedido do '\\' ");
+            throw new DelimitadorInvalidoException(
+                "The delimiter must be a single character or\n" +
+                "be preceded by '\\' "
+            );
     }
 
     void OutputPathChoose() throws IOException,EscritaNãoPermitidaException {
@@ -97,7 +102,7 @@ public class Patex {
         } catch (FileNotFoundException e){
             JOptionPane.showMessageDialog(null, "You must choose a file to continue");
         } catch (DelimitadorInvalidoException e){
-            JOptionPane.showMessageDialog(null, "Invalid delimiter");
+            JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (EscritaNãoPermitidaException e) {
             JOptionPane.showMessageDialog(null,"Directory without write permission");
         }catch (Exception e) {
