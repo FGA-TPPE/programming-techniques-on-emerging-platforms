@@ -45,6 +45,14 @@ public class Patex {
         return true;
     }
 
+    Boolean readChosenFile() throws Exception {
+        if(this.isFileChosen() && this.isChosenFileReadable()){
+            return true;
+        }
+
+        throw new Exception("File was not chosen or is not readable");
+    }
+
     Boolean choseOutputFormat() throws Exception {
         Object[] choices = {"Lines", "Columns"};
         this.userOutputFormatChoice = JOptionPane.showInputDialog(null,
