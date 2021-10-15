@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
  */
 class AppTest {
 
-    private Patex patexapp;
+    protected Patex patexapp;
 
     AppTest(){
         this.patexapp = new Patex();
