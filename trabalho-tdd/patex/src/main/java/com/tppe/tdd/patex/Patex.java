@@ -70,7 +70,7 @@ public class Patex {
             );
             this.delimiter = result;
         }
-        if( this.delimiter.length()>2 ||
+        if( this.delimiter.length()>2 || this.delimiter.length()<1 ||
             this.delimiter.length() == 2 && !this.delimiter.startsWith("\\")
         )
             throw new DelimitadorInvalidoException(
