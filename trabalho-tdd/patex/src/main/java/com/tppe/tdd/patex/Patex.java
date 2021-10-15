@@ -42,6 +42,10 @@ public class Patex {
         return true;
     }
 
+    Boolean choseOutputFormat() {
+        return true;
+    }
+
     String returnOutputPath() {
         return this.fc.getSelectedFile().getAbsolutePath();
     }
@@ -100,7 +104,7 @@ public class Patex {
             System.out.println("Unexpected exception occurred");
         }
 
-        
+
     }
 
     void stop(){
