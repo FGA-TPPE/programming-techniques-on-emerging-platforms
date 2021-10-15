@@ -1,6 +1,5 @@
 package com.tppe.tdd.patex;
 
-import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -15,23 +14,27 @@ public class Patex {
     private JFileChooser fc;
     File chosenFile;
     String delimiter;
+    Object userOutputFormatChoice;
 
     Patex(){
         this.fc = new JFileChooser();
         this.chosenFile = null;
         this.delimiter = null;
+        this.userOutputFormatChoice = null;
     }
 
     Patex(String pathToFile){
         this.fc = new JFileChooser();
         this.chosenFile = new File(pathToFile);
         this.delimiter = null;
+        this.userOutputFormatChoice = null;
     }
 
     Patex(String pathToFile, String delimiter){
         this.fc = new JFileChooser();
         this.chosenFile = new File(pathToFile);
         this.delimiter = delimiter;
+        this.userOutputFormatChoice = null;
     }
 
     Boolean isFileChosen(){
@@ -42,7 +45,20 @@ public class Patex {
         return true;
     }
 
-    Boolean choseOutputFormat() {
+    Boolean choseOutputFormat() throws Exception {
+        Object[] choices = {"Lines", "Columns"};
+        this.userOutputFormatChoice = JOptionPane.showInputDialog(null,
+            "How do you want the output format to be like ?",
+            "Select the output format",
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            choices,
+            choices[0]
+        );
+        if(this.userOutputFormatChoice == null){
+            throw new Exception("You must choose an output format. Try again.");
+        }
+
         return true;
     }
 
@@ -82,16 +98,13 @@ public class Patex {
     void OutputPathChoose() throws IOException,EscritaNãoPermitidaException {
         this.fc.showSaveDialog(null);
         String path = this.fc.getSelectedFile().getAbsolutePath();
-        try{
-            if(!this.fc.getCurrentDirectory().canWrite()){
-                JOptionPane.showMessageDialog(null,"Directory without write permission");
-                throw new EscritaNãoPermitidaException("Directory without write permission") ;
-            }
-            FileWriter fileWriter = new FileWriter(path,false);
-            fileWriter.close();
-        }catch(IOException exception){
-            throw exception;
+
+        if(!this.fc.getCurrentDirectory().canWrite()){
+            JOptionPane.showMessageDialog(null,"Directory without write permission");
+            throw new EscritaNãoPermitidaException("Directory without write permission") ;
         }
+        FileWriter fileWriter = new FileWriter(path,false);
+        fileWriter.close();
     }
 
     void start(){
@@ -99,6 +112,7 @@ public class Patex {
             this.chooseFile();
             this.chooseDelimiter();
             this.OutputPathChoose();
+            this.choseOutputFormat();
         } catch (FileNotFoundException e){
             JOptionPane.showMessageDialog(null, "You must choose a file to continue");
         } catch (DelimitadorInvalidoException e){
@@ -106,7 +120,8 @@ public class Patex {
         } catch (EscritaNãoPermitidaException e) {
             JOptionPane.showMessageDialog(null,"Directory without write permission");
         }catch (Exception e) {
-            System.out.println("Unexpected exception occurred");
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println("Unexpected exception occurred - " + e.getMessage());
         }
 
 
