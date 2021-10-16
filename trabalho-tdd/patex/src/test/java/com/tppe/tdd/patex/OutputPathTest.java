@@ -35,18 +35,23 @@ public class OutputPathTest {
     }
 
     @Test()
+    void testFileExtension(){
+            patexapp.start();
+            File file =new File(patexapp.returnOutputPath());
+            assertTrue(file.getName().endsWith(".out"));
+    }
+    
+    @Test()
     void testFileNameAnalysisMemoryTab(){
         //EScolhendo o arquivo analysisMemory.out
             patexapp.start();
             assertEquals("analysisMemoryTab.out", patexapp.returnSelectedFileName());
             
     }
-
     @Test()
     void testFileNameAnalysisTimeTab(){
         //EScolhendo o arquivo analysisTime.out
             patexapp.start();
-            assertEquals("analysisTimeTab.out", patexapp.returnSelectedFileName());
-            
+            assertEquals("analysisTimeTab.out", patexapp.returnSelectedFileName());       
     }
 }

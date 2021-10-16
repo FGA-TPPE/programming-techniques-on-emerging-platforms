@@ -49,11 +49,4 @@ class ChooseFile {
         this.patexapp = new Patex("analysisTime.out");
         assertEquals(true, this.patexapp.isChosenFileReadable());
     }
-
-    @Test()
-    void testFileExtension(){
-            patexapp.start();
-            assertTrue(this.patexapp.chosenFile.getName().endsWith(".out"));
-         
-    }
 }

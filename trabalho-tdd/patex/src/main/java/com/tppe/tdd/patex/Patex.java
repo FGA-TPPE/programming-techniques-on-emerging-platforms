@@ -86,17 +86,9 @@ public class Patex {
         if(!this.isFileChosen()){
             this.fc.setDialogTitle("Choose the file you want to parse");
             this.fc.setApproveButtonText("Choose");
-            //Set the filter extensions
-            FileFilter filter = new FileNameExtensionFilter("OUT File","out");
-            this.fc.setFileFilter(filter);
             int approve = this.fc.showOpenDialog(null);
             if(approve == this.fc.APPROVE_OPTION){
                 this.chosenFile = this.fc.getSelectedFile();
-                //set the file name
-                if(this.fc.getSelectedFile().getName() == "analysisMemory.out")
-                    this.fc.setSelectedFile(new File("analysisMemoryTab.out"));
-                if(this.fc.getSelectedFile().getName() == "analysisTime.out")
-                    this.fc.setSelectedFile(new File("analysisTimeTab.out"));    
             }
             else
                 throw new FileNotFoundException("No file was chosen");
@@ -124,9 +116,15 @@ public class Patex {
         //Set the filter extensions
         FileFilter filter = new FileNameExtensionFilter("OUT File","out");
         this.fc.setFileFilter(filter);
+        //Set the output file name
+        System.out.println(this.chosenFile.getName());
+        if(this.chosenFile.getName().equals("analysisMemory.out"))
+            this.fc.setSelectedFile(new File("analysisMemoryTab.out"));
+        if(this.chosenFile.getName().equals("analysisTime.out"))
+            this.fc.setSelectedFile(new File("analysisTimeTab.out"));
+        //Open SaveDialog  
         this.fc.showSaveDialog(null);
         String path = this.fc.getSelectedFile().getAbsolutePath();
-
         if(!this.fc.getCurrentDirectory().canWrite()){
             JOptionPane.showMessageDialog(null,"Directory without write permission");
             throw new EscritaNãoPermitidaException("Directory without write permission") ;
