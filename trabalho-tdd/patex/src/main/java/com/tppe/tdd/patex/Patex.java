@@ -1,12 +1,17 @@
 package com.tppe.tdd.patex;
 
+import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.tppe.tdd.patex.Exceptions.EscritaNãoPermitidaException;
 import com.tppe.tdd.patex.Exceptions.DelimitadorInvalidoException;
 
@@ -73,14 +78,25 @@ public class Patex {
     String returnOutputPath() {
         return this.fc.getSelectedFile().getAbsolutePath();
     }
+    String returnSelectedFileName() {
+        return this.fc.getSelectedFile().getName();
+    }
 
     void chooseFile() throws FileNotFoundException{
         if(!this.isFileChosen()){
             this.fc.setDialogTitle("Choose the file you want to parse");
             this.fc.setApproveButtonText("Choose");
+            //Set the filter extensions
+            FileFilter filter = new FileNameExtensionFilter("OUT File","out");
+            this.fc.setFileFilter(filter);
             int approve = this.fc.showOpenDialog(null);
             if(approve == this.fc.APPROVE_OPTION){
                 this.chosenFile = this.fc.getSelectedFile();
+                //set the file name
+                if(this.fc.getSelectedFile().getName() == "analysisMemory.out")
+                    this.fc.setSelectedFile(new File("analysisMemoryTab.out"));
+                if(this.fc.getSelectedFile().getName() == "analysisTime.out")
+                    this.fc.setSelectedFile(new File("analysisTimeTab.out"));    
             }
             else
                 throw new FileNotFoundException("No file was chosen");
@@ -104,6 +120,10 @@ public class Patex {
     }
 
     void OutputPathChoose() throws IOException,EscritaNãoPermitidaException {
+        this.fc.setDialogTitle("Choose the path to save");
+        //Set the filter extensions
+        FileFilter filter = new FileNameExtensionFilter("OUT File","out");
+        this.fc.setFileFilter(filter);
         this.fc.showSaveDialog(null);
         String path = this.fc.getSelectedFile().getAbsolutePath();
 
@@ -111,9 +131,11 @@ public class Patex {
             JOptionPane.showMessageDialog(null,"Directory without write permission");
             throw new EscritaNãoPermitidaException("Directory without write permission") ;
         }
+        //Create the file
         FileWriter fileWriter = new FileWriter(path,false);
         fileWriter.close();
     }
+
 
     void start(){
         try {

@@ -5,17 +5,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 
 /**
  * Unit test for simple App.
  */
-class AppTest {
+class ChooseFile {
 
     protected Patex patexapp;
 
-    AppTest(){
+    ChooseFile(){
         this.patexapp = new Patex();
     }
 
@@ -47,5 +48,12 @@ class AppTest {
     void testIfFileIsReadable(){
         this.patexapp = new Patex("analysisTime.out");
         assertEquals(true, this.patexapp.isChosenFileReadable());
+    }
+
+    @Test()
+    void testFileExtension(){
+            patexapp.start();
+            assertTrue(this.patexapp.chosenFile.getName().endsWith(".out"));
+         
     }
 }
