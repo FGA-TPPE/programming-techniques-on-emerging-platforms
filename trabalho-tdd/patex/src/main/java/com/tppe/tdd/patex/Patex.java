@@ -117,7 +117,7 @@ public class Patex {
                 outputFile.write("\n" + evolution + this.delimiter);
                 wordBeforeWasNumber = false;
             }
-            else if(word.matches("[0-9]+")){
+            else if(word.matches("[0-9]+(\\.[0-9]+)?")){
                 String sequence = wordBeforeWasNumber ?
                     (this.delimiter + word) : word;
                 outputFile.write(sequence);
