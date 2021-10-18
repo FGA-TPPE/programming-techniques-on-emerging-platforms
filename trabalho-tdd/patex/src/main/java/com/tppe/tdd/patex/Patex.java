@@ -21,6 +21,7 @@ public class Patex {
     String delimiter;
     Object userOutputFormatChoice;
     List<String> chosenFileLines;
+    String outputPath;
 
     Patex(){
         this.fc = new JFileChooser();
@@ -28,6 +29,7 @@ public class Patex {
         this.delimiter = null;
         this.userOutputFormatChoice = null;
         this.chosenFileLines = null;
+        this.outputPath = null;
     }
 
     Patex(String pathToFile){
@@ -36,6 +38,7 @@ public class Patex {
         this.delimiter = null;
         this.userOutputFormatChoice = null;
         this.chosenFileLines = null;
+        this.outputPath = null;
     }
 
     Patex(String pathToFile, String delimiter){
@@ -44,6 +47,7 @@ public class Patex {
         this.delimiter = delimiter;
         this.userOutputFormatChoice = null;
         this.chosenFileLines = null;
+        this.outputPath = null;
     }
 
     Boolean isFileChosen(){
@@ -131,14 +135,14 @@ public class Patex {
             this.fc.setSelectedFile(new File("analysisTimeTab.out"));
         //Open SaveDialog
         this.fc.showSaveDialog(null);
-        String path = this.fc.getSelectedFile().getAbsolutePath();
+        this.outputPath = this.fc.getSelectedFile().getAbsolutePath();
         if(!this.fc.getCurrentDirectory().canWrite()){
             JOptionPane.showMessageDialog(null,"Directory without write permission");
             throw new EscritaNãoPermitidaException("Directory without write permission") ;
         }
         //Create the file
-        FileWriter fileWriter = new FileWriter(path,false);
-        fileWriter.close();
+        // FileWriter fileWriter = new FileWriter(this.outputPath,false);
+        // fileWriter.close();
     }
 
 
