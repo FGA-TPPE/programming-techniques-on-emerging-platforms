@@ -51,7 +51,7 @@ public class Patex {
     }
 
     Boolean isChosenFileReadable() {
-        return true;
+        return chosenFile.canRead();
     }
 
     Boolean readChosenFile() throws Exception {
