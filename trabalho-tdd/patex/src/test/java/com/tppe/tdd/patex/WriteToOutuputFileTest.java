@@ -11,12 +11,24 @@ public class WriteToOutuputFileTest extends ChooseFile {
 
     WriteToOutuputFileTest(){
         super();
-        this.testFile = new File("../outputTest/testFile.txt");
+        this.testFile = new File("outputTest/testFile.txt");
     }
 
     @Test()
     void testWriteToOutputFile() throws Exception {
+        this.patexapp = new Patex("../analysisTime.out", ";");
+        this.patexapp.userOutputFormatChoice = "Lines";
         this.patexapp.outputPath = this.testFile.getAbsolutePath();
+        this.patexapp.readChosenFile();
+        assertEquals(true, this.patexapp.writeToOutputFile());
+    }
+
+    @Test()
+    void testWriteToOutputFile_2() throws Exception {
+        this.patexapp = new Patex("../analysisMemory.out", ";");
+        this.patexapp.userOutputFormatChoice = "Lines";
+        this.patexapp.outputPath = this.testFile.getAbsolutePath();
+        this.patexapp.readChosenFile();
         assertEquals(true, this.patexapp.writeToOutputFile());
     }
 }
