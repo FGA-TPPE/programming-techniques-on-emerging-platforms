@@ -107,7 +107,24 @@ public class Patex {
         return this.chosenFileLines != null;
     }
 
-    private void parseLines(FileWriter outputFile) {
+    private void parseLines(FileWriter outputFile) throws IOException {
+        boolean wordBeforeWasNumber = false;
+        outputFile.write("Evolution number" + this.delimiter + "value" + "\n");
+        for (String word : this.chosenFileLines) {
+            if(word.matches("(-)*[ Eevolucçãaotion]+(.)*")){
+                String[] splitted = word.split(" ");
+                String evolution = splitted[splitted.length - 2];
+                outputFile.write("\n" + evolution + this.delimiter);
+                wordBeforeWasNumber = false;
+            }
+            else if(word.matches("[0-9]+")){
+                String sequence = wordBeforeWasNumber ?
+                    (this.delimiter + word) : word;
+                outputFile.write(sequence);
+                wordBeforeWasNumber = true;
+            }
+        }
+        outputFile.close();
         return;
     }
 
@@ -211,9 +228,7 @@ public class Patex {
             JOptionPane.showMessageDialog(null,"Directory without write permission");
             throw new EscritaNãoPermitidaException("Directory without write permission") ;
         }
-        //Create the file
-        // FileWriter fileWriter = new FileWriter(this.outputPath,false);
-        // fileWriter.close();
+        return;
     }
 
 
