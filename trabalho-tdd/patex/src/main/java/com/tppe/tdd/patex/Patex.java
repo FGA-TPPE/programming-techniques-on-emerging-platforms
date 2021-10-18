@@ -2,6 +2,7 @@ package com.tppe.tdd.patex;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Patex {
     private JFileChooser fc;
     File chosenFile;
     String delimiter;
+    Object[] outputFormatchoices;
     Object userOutputFormatChoice;
     List<String> chosenFileLines;
     String outputPath;
@@ -29,6 +31,7 @@ public class Patex {
         this.userOutputFormatChoice = null;
         this.chosenFileLines = null;
         this.outputPath = null;
+        this.setOutputFormatchoices();
     }
 
     Patex(String pathToFile){
@@ -38,6 +41,7 @@ public class Patex {
         this.userOutputFormatChoice = null;
         this.chosenFileLines = null;
         this.outputPath = null;
+        this.setOutputFormatchoices();
     }
 
     Patex(String pathToFile, String delimiter){
@@ -47,6 +51,13 @@ public class Patex {
         this.userOutputFormatChoice = null;
         this.chosenFileLines = null;
         this.outputPath = null;
+        this.setOutputFormatchoices();
+    }
+
+    private void setOutputFormatchoices() {
+        Object[] choices = {"Lines", "Columns"};
+        this.outputFormatchoices = choices;
+        return;
     }
 
     Boolean isFileChosen(){
@@ -68,19 +79,76 @@ public class Patex {
         throw new Exception("File was not chosen or is not readable");
     }
 
-    Boolean writeToOutputFile() {
-        return true;
+    Boolean isOutputPathSet() {
+        return this.outputPath != null;
+    }
+
+    Boolean isOutputFormatChosen() throws Exception {
+        if(this.userOutputFormatChoice != null){
+            boolean choiceMatches = false;
+            for (Object choice : this.outputFormatchoices) {
+                if(choice.toString().equals(
+                    this.userOutputFormatChoice.toString()
+                )){
+                    choiceMatches = true;
+                    break;
+                }
+            }
+            if(choiceMatches)
+                return true;
+
+            throw new Exception("The chosen output format is invalid");
+        }
+
+        return false;
+    }
+
+    Boolean wasChosenFileRead() {
+        return this.chosenFileLines != null;
+    }
+
+    private void parseLines(FileWriter outputFile) {
+        return;
+    }
+
+    private void parseColumns(FileWriter outputFile) {
+        return;
+    }
+
+    Boolean writeToOutputFile() throws Exception {
+        if(this.wasChosenFileRead() &&
+            this.isOutputFormatChosen() &&
+            this.isOutputPathSet()
+        ){
+            FileWriter outputFile = new FileWriter(this.outputPath, false);
+            switch (this.userOutputFormatChoice.toString()) {
+                case "Lines":
+                    this.parseLines(outputFile);
+                    break;
+
+                case "Columns":
+                    this.parseColumns(outputFile);
+                    break;
+
+                default:
+                    break;
+            }
+            return true;
+        }
+
+        throw new Exception(
+            "You must choose the path to save the output file before"
+        );
     }
 
     Boolean choseOutputFormat() throws Exception {
-        Object[] choices = {"Lines", "Columns"};
         this.userOutputFormatChoice = JOptionPane.showInputDialog(null,
             "How do you want the output format to be like ?",
             "Select the output format",
             JOptionPane.QUESTION_MESSAGE,
             null,
-            choices,
-            choices[0]
+            this.outputFormatchoices,
+            this.outputFormatchoices[0]
         );
         if(this.userOutputFormatChoice == null){
             throw new Exception("You must choose an output format. Try again.");
@@ -131,7 +199,7 @@ public class Patex {
         FileFilter filter = new FileNameExtensionFilter("OUT File","out");
         this.fc.setFileFilter(filter);
         //Set the output file name
-        System.out.println(this.chosenFile.getName());
+        // System.out.println(this.chosenFile.getName());
         if(this.chosenFile.getName().equals("analysisMemory.out"))
             this.fc.setSelectedFile(new File("analysisMemoryTab.out"));
         if(this.chosenFile.getName().equals("analysisTime.out"))
