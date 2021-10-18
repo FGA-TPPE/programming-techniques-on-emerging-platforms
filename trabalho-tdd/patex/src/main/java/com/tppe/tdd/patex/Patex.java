@@ -2,7 +2,6 @@ package com.tppe.tdd.patex;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -67,6 +66,10 @@ public class Patex {
         }
 
         throw new Exception("File was not chosen or is not readable");
+    }
+
+    Boolean writeToOutputFile() {
+        return true;
     }
 
     Boolean choseOutputFormat() throws Exception {
@@ -153,6 +156,7 @@ public class Patex {
             this.OutputPathChoose();
             this.choseOutputFormat();
             this.readChosenFile();
+            this.writeToOutputFile();
         } catch (FileNotFoundException e){
             JOptionPane.showMessageDialog(null, "You must choose a file to continue");
         } catch (DelimitadorInvalidoException e){
