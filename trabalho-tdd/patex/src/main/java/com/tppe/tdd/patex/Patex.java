@@ -1,11 +1,11 @@
 package com.tppe.tdd.patex;
 
-import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -20,12 +20,14 @@ public class Patex {
     File chosenFile;
     String delimiter;
     Object userOutputFormatChoice;
+    List<String> chosenFileLines;
 
     Patex(){
         this.fc = new JFileChooser();
         this.chosenFile = null;
         this.delimiter = null;
         this.userOutputFormatChoice = null;
+        this.chosenFileLines = null;
     }
 
     Patex(String pathToFile){
@@ -33,6 +35,7 @@ public class Patex {
         this.chosenFile = new File(pathToFile);
         this.delimiter = null;
         this.userOutputFormatChoice = null;
+        this.chosenFileLines = null;
     }
 
     Patex(String pathToFile, String delimiter){
@@ -40,6 +43,7 @@ public class Patex {
         this.chosenFile = new File(pathToFile);
         this.delimiter = delimiter;
         this.userOutputFormatChoice = null;
+        this.chosenFileLines = null;
     }
 
     Boolean isFileChosen(){
@@ -52,6 +56,9 @@ public class Patex {
 
     Boolean readChosenFile() throws Exception {
         if(this.isFileChosen() && this.isChosenFileReadable()){
+            this.chosenFileLines = Files.readAllLines(
+                this.chosenFile.toPath().toAbsolutePath()
+            );
             return true;
         }
 
@@ -122,7 +129,7 @@ public class Patex {
             this.fc.setSelectedFile(new File("analysisMemoryTab.out"));
         if(this.chosenFile.getName().equals("analysisTime.out"))
             this.fc.setSelectedFile(new File("analysisTimeTab.out"));
-        //Open SaveDialog  
+        //Open SaveDialog
         this.fc.showSaveDialog(null);
         String path = this.fc.getSelectedFile().getAbsolutePath();
         if(!this.fc.getCurrentDirectory().canWrite()){
@@ -141,6 +148,7 @@ public class Patex {
             this.chooseDelimiter();
             this.OutputPathChoose();
             this.choseOutputFormat();
+            this.readChosenFile();
         } catch (FileNotFoundException e){
             JOptionPane.showMessageDialog(null, "You must choose a file to continue");
         } catch (DelimitadorInvalidoException e){
