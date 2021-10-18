@@ -15,7 +15,7 @@ public class WriteToOutuputFileTest extends ChooseFile {
     }
 
     @Test()
-    void testWriteToOutputFile() {
+    void testWriteToOutputFile() throws Exception {
         this.patexapp.outputPath = this.testFile.getAbsolutePath();
         assertEquals(true, this.patexapp.writeToOutputFile());
     }
