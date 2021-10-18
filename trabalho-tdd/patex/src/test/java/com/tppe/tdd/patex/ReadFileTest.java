@@ -11,7 +11,13 @@ public class ReadFileTest extends ChooseFile {
 
     @Test()
     void testFileWasRead() throws Exception {
-        this.patexapp = new Patex("analysisTime.out");
+        this.patexapp = new Patex("../analysisMemory.out");
+        assertEquals(true, this.patexapp.readChosenFile());
+    }
+
+    @Test()
+    void testAnotherFileWasRead() throws Exception {
+        this.patexapp = new Patex("../analysisTime.out");
         assertEquals(true, this.patexapp.readChosenFile());
     }
 }
