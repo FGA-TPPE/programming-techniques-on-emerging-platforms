@@ -72,6 +72,10 @@ public class Patex {
         return true;
     }
 
+    String returnSelectedFileName() {
+        return this.fc.getSelectedFile().getName();
+    }
+
     Boolean choseOutputFormat() throws Exception {
         Object[] choices = {"Lines", "Columns"};
         this.userOutputFormatChoice = JOptionPane.showInputDialog(null,
@@ -87,13 +91,6 @@ public class Patex {
         }
 
         return true;
-    }
-
-    String returnOutputPath() {
-        return this.fc.getSelectedFile().getAbsolutePath();
-    }
-    String returnSelectedFileName() {
-        return this.fc.getSelectedFile().getName();
     }
 
     void chooseFile() throws FileNotFoundException{
@@ -125,27 +122,27 @@ public class Patex {
             );
     }
 
-    void OutputPathChoose() throws IOException,EscritaNãoPermitidaException {
-        this.fc.setDialogTitle("Choose the path to save");
-        //Set the filter extensions
-        FileFilter filter = new FileNameExtensionFilter("OUT File","out");
-        this.fc.setFileFilter(filter);
-        //Set the output file name
-        System.out.println(this.chosenFile.getName());
-        if(this.chosenFile.getName().equals("analysisMemory.out"))
-            this.fc.setSelectedFile(new File("analysisMemoryTab.out"));
-        if(this.chosenFile.getName().equals("analysisTime.out"))
-            this.fc.setSelectedFile(new File("analysisTimeTab.out"));
-        //Open SaveDialog
-        this.fc.showSaveDialog(null);
-        this.outputPath = this.fc.getSelectedFile().getAbsolutePath();
-        if(!this.fc.getCurrentDirectory().canWrite()){
-            JOptionPane.showMessageDialog(null,"Directory without write permission");
-            throw new EscritaNãoPermitidaException("Directory without write permission") ;
-        }
-        //Create the file
-        // FileWriter fileWriter = new FileWriter(this.outputPath,false);
-        // fileWriter.close();
+    void OutputPathChoose() throws IOException,EscritaNãoPermitidaException,FileNotFoundException {
+        
+        if(this.isFileChosen()){
+            this.fc.setDialogTitle("Choose the path to save");
+            //Set the filter extensions
+            FileFilter filter = new FileNameExtensionFilter("OUT File","out");
+            this.fc.setFileFilter(filter);
+            //Set the output file name
+            if(this.chosenFile.getName().equals("analysisMemory.out"))
+                this.fc.setSelectedFile(new File("analysisMemoryTab.out"));
+            if(this.chosenFile.getName().equals("analysisTime.out"))
+                this.fc.setSelectedFile(new File("analysisTimeTab.out"));
+            //Open SaveDialog
+            this.fc.showSaveDialog(null);
+            if(!this.fc.getCurrentDirectory().canWrite()){
+                JOptionPane.showMessageDialog(null,"Directory without write permission");
+                throw new EscritaNãoPermitidaException("Directory without write permission") ;
+            }
+            this.outputPath = this.fc.getSelectedFile().getAbsolutePath();
+        }else
+            throw new FileNotFoundException("No file was chosen");
     }
 
 

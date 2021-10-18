@@ -2,11 +2,9 @@ package com.tppe.tdd.patex;
 
 import org.junit.jupiter.api.Test;
 import java.io.File;
-import java.io.IOException;
 import com.tppe.tdd.patex.Exceptions.EscritaNãoPermitidaException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,42 +14,41 @@ public class OutputPathTest {
 
     public OutputPathTest() {
         this.patexapp = new Patex();
+        this.patexapp.delimiter = ";";
     }
         
-    @Test()
-    void testOutputPathChoose(){
-        try{
-            patexapp.OutputPathChoose();
-            assertNotNull(new File(patexapp.returnOutputPath()));
-
-        }catch(IOException exception){
-
-        }catch(EscritaNãoPermitidaException exception){}
-    }
 
     @Test()
     void testDirectoryWritePermission(){
+        //Escolhendo um diretorio teste com a permissao de escrita negada 
         assertThrows(EscritaNãoPermitidaException.class,() -> patexapp.OutputPathChoose());    
     }
 
     @Test()
     void testFileExtension(){
-            patexapp.start();
-            File file =new File(patexapp.returnOutputPath());
+        try{    
+            patexapp.chosenFile =new File("../../../analysisMemory.out");
+            patexapp.OutputPathChoose();
+            File file =new File(patexapp.outputPath);
             assertTrue(file.getName().endsWith(".out"));
+        }catch(Exception ex){ }
+
     }
     
     @Test()
     void testFileNameAnalysisMemoryTab(){
-        //EScolhendo o arquivo analysisMemory.out
-            patexapp.start();
-            assertEquals("analysisMemoryTab.out", patexapp.returnSelectedFileName());
-            
+            try{
+                patexapp.chosenFile =new File("../../../analysisMemory.out");
+                patexapp.OutputPathChoose();
+                assertEquals("analysisMemoryTab.out", patexapp.returnSelectedFileName() );
+            }catch(Exception ex){}
     }
     @Test()
     void testFileNameAnalysisTimeTab(){
-        //EScolhendo o arquivo analysisTime.out
-            patexapp.start();
-            assertEquals("analysisTimeTab.out", patexapp.returnSelectedFileName());       
+        try{    
+            patexapp.chosenFile =new File("../../../analysisTime.out");
+            patexapp.OutputPathChoose();
+            assertEquals("analysisTimeTab.out", patexapp.returnSelectedFileName() );       
+        }catch(Exception ex){}    
     }
 }
