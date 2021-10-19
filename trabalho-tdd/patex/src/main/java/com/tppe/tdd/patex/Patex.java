@@ -166,8 +166,22 @@ public class Patex {
                 this.matrizValues.get(line).add(word);
             }
         }    
-        System.out.println(this.matrizValues.toString());
+        parseColumnsWriteFile(outputFile);
         return;
+    }
+
+    private void parseColumnsWriteFile(FileWriter outputFile)throws IOException{
+        outputFile.write("Evolution "+this.delimiter+"Evolution "+this.delimiter+"Evolution "+"\n");
+        outputFile.write("value " +this.delimiter+ "value " + this.delimiter + "value " + "\n");
+        //Percorrendo as linhas
+        for(int i =0;i<this.matrizValues.size(); i++){
+            //Percorrendo o array list na posicao i
+            for(int j=0; j<this.matrizValues.get(i).size(); j++){
+                outputFile.write(this.matrizValues.get(i).get(j) + this.delimiter);
+            }   
+            outputFile.write("\n");
+        }
+        outputFile.close();
     }
 
     Boolean writeToOutputFile() throws Exception {
