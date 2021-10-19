@@ -15,7 +15,7 @@ public class WriteToOutuputFileTest extends ChooseFile {
     }
 
     @Test()
-    void testWriteToOutputFile() throws Exception {
+    void testWriteToOutputFile_Lines() throws Exception {
         this.patexapp = new Patex("../analysisTime.out", ";");
         this.patexapp.userOutputFormatChoice = "Lines";
         this.patexapp.outputPath = this.testFile.getAbsolutePath();
@@ -24,9 +24,26 @@ public class WriteToOutuputFileTest extends ChooseFile {
     }
 
     @Test()
-    void testWriteToOutputFile_2() throws Exception {
+    void testWriteToOutputFile_Lines2() throws Exception {
         this.patexapp = new Patex("../analysisMemory.out", ";");
         this.patexapp.userOutputFormatChoice = "Lines";
+        this.patexapp.outputPath = this.testFile.getAbsolutePath();
+        this.patexapp.readChosenFile();
+        assertEquals(true, this.patexapp.writeToOutputFile());
+    }
+
+    @Test()
+    void testWriteToOutputFile_Columns() throws Exception {
+        this.patexapp = new Patex("../analysisTime.out", ";");
+        this.patexapp.userOutputFormatChoice = "Columns";
+        this.patexapp.outputPath = this.testFile.getAbsolutePath();
+        this.patexapp.readChosenFile();
+        assertEquals(true, this.patexapp.writeToOutputFile());
+    }
+    @Test()
+    void testWriteToOutputFile_Columns2() throws Exception {
+        this.patexapp = new Patex("../analysisMemory.out", ";");
+        this.patexapp.userOutputFormatChoice = "Columns";
         this.patexapp.outputPath = this.testFile.getAbsolutePath();
         this.patexapp.readChosenFile();
         assertEquals(true, this.patexapp.writeToOutputFile());

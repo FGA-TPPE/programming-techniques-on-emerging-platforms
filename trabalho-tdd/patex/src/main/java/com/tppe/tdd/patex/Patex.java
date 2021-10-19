@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -23,6 +24,7 @@ public class Patex {
     Object userOutputFormatChoice;
     List<String> chosenFileLines;
     String outputPath;
+    ArrayList<ArrayList> matrizValues;
 
     Patex(){
         this.fc = new JFileChooser();
@@ -32,6 +34,7 @@ public class Patex {
         this.chosenFileLines = null;
         this.outputPath = null;
         this.setOutputFormatchoices();
+        matrizValues = new ArrayList<ArrayList>();
     }
 
     Patex(String pathToFile){
@@ -42,6 +45,7 @@ public class Patex {
         this.chosenFileLines = null;
         this.outputPath = null;
         this.setOutputFormatchoices();
+        matrizValues = new ArrayList<ArrayList>();
     }
 
     Patex(String pathToFile, String delimiter){
@@ -52,12 +56,17 @@ public class Patex {
         this.chosenFileLines = null;
         this.outputPath = null;
         this.setOutputFormatchoices();
+        matrizValues = new ArrayList<ArrayList>();
     }
 
     private void setOutputFormatchoices() {
         Object[] choices = {"Lines", "Columns"};
         this.outputFormatchoices = choices;
         return;
+    }
+
+    String returnSelectedFileName() {
+        return this.fc.getSelectedFile().getName();
     }
 
     Boolean isFileChosen(){
@@ -118,8 +127,7 @@ public class Patex {
                 wordBeforeWasNumber = false;
             }
             else if(word.matches("[0-9]+(\\.[0-9]+)?")){
-                String sequence = wordBeforeWasNumber ?
-                    (this.delimiter + word) : word;
+                String sequence = wordBeforeWasNumber ? (this.delimiter + word) : word;
                 outputFile.write(sequence);
                 wordBeforeWasNumber = true;
             }
@@ -128,7 +136,37 @@ public class Patex {
         return;
     }
 
-    private void parseColumns(FileWriter outputFile) {
+    private void parseColumns(FileWriter outputFile) throws IOException {
+        /*Funcao que le o arquvivo e preenche a matrizValues, sendo o primerio array as evolucoes
+          e o restante os registros respeitando a posicao das evolucoes referidas no primeiro array*/
+        Integer column = 0;
+        Integer line = 0;
+        //Linha representando as evolucoes
+        this.matrizValues.add( new ArrayList<String>() );
+
+        for (String word : this.chosenFileLines) {
+            if(word.matches("(-)*[ Eevolucçãaotion]+(.)*")){
+                String[] splitted = word.split(" ");
+                column = Integer.parseInt(splitted[splitted.length - 2]);
+                line = 0;
+                this.matrizValues.get(0).add(Integer.toString(column));
+            }
+            else if(word.matches("[0-9]+(\\.[0-9]+)?")){
+                ++line;
+                /* Caso a linha seja null , significa que todas as evolucoes anteriores sao menores que a atual e devem 
+                 ser null nessa linha */
+                if(line == this.matrizValues.size()){
+                    this.matrizValues.add(new ArrayList<String>());
+                    /*Preenchendo os valores dessa linha com null, 
+                    em que somente o valor na posicao "columns" tenha o valor "word" */
+                    for(int i = 0; i < column; i++){
+                        this.matrizValues.get(line).add(null);
+                    }
+                }
+                this.matrizValues.get(line).add(word);
+            }
+        }    
+        System.out.println(this.matrizValues.toString());
         return;
     }
 
@@ -158,9 +196,6 @@ public class Patex {
         );
     }
 
-    String returnSelectedFileName() {
-        return this.fc.getSelectedFile().getName();
-    }
 
     Boolean choseOutputFormat() throws Exception {
         this.userOutputFormatChoice = JOptionPane.showInputDialog(null,
