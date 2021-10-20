@@ -6,32 +6,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
-/**
- * Unit test for simple App.
- */
-class ChooseFile {
+
+class ChooseFileTest {
 
     protected Patex patexapp;
 
-    ChooseFile(){
+    ChooseFileTest(){
         this.patexapp = new Patex();
     }
 
     @Test()
     void testFileChoosing() throws FileNotFoundException {
-        /* Since Patex uses a dialog in which the user needs to choose the file,
-        for this test to pass the user is required to select any file and hit the
-        choose button */
+        this.patexapp.chosenFile = new File("../analysisMemory.out");
         this.patexapp.chooseFile();
         assertNotNull(this.patexapp.chosenFile);
     }
 
     @Test()
     void testFileNotChosen() throws FileNotFoundException {
-        /* Since Patex uses a dialog in which the user needs to choose the file,
-        for this test to pass the user is required to hit the cancel button */
+        this.patexapp.chosenFile = new File("../dontExist.txt");
         assertThrows(FileNotFoundException.class, () ->
             this.patexapp.chooseFile()
         );
@@ -45,7 +41,7 @@ class ChooseFile {
 
     @Test()
     void testIfFileIsReadable(){
-        this.patexapp = new Patex("analysisTime.out");
+        this.patexapp = new Patex("../analysisTime.out");
         assertEquals(true, this.patexapp.isChosenFileReadable());
     }
 }
