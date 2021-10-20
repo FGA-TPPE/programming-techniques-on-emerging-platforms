@@ -240,6 +240,11 @@ public class Patex {
             else
                 throw new FileNotFoundException("No file was chosen");
         }
+        if(!this.chosenFile.exists()){
+            throw new FileNotFoundException("Couldnt find the provided file");
+        }
+
+        return;
     }
 
     void chooseDelimiter() throws DelimitadorInvalidoException{
