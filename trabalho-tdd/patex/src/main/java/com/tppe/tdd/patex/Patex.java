@@ -17,7 +17,7 @@ import com.tppe.tdd.patex.Exceptions.EscritaNãoPermitidaException;
 import com.tppe.tdd.patex.Exceptions.DelimitadorInvalidoException;
 
 public class Patex {
-    private JFileChooser fc;
+    protected JFileChooser fc;
     File chosenFile;
     String delimiter;
     Object[] outputFormatchoices;
