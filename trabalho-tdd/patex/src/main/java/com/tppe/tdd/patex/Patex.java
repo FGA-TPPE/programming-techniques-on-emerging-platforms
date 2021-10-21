@@ -17,7 +17,7 @@ import com.tppe.tdd.patex.Exceptions.EscritaNãoPermitidaException;
 import com.tppe.tdd.patex.Exceptions.DelimitadorInvalidoException;
 
 public class Patex {
-    private JFileChooser fc;
+    protected JFileChooser fc;
     File chosenFile;
     String delimiter;
     Object[] outputFormatchoices;
@@ -153,11 +153,11 @@ public class Patex {
             }
             else if(word.matches("[0-9]+(\\.[0-9]+)?")){
                 ++line;
-                /* Caso a linha seja null , significa que todas as evolucoes anteriores sao menores que a atual e devem 
+                /* Caso a linha seja null , significa que todas as evolucoes anteriores sao menores que a atual e devem
                  ser null nessa linha */
                 if(line == this.matrizValues.size()){
                     this.matrizValues.add(new ArrayList<String>());
-                    /*Preenchendo os valores dessa linha com null, 
+                    /*Preenchendo os valores dessa linha com null,
                     em que somente o valor na posicao "columns" tenha o valor "word" */
                     for(int i = 0; i < column; i++){
                         this.matrizValues.get(line).add(null);
@@ -165,7 +165,7 @@ public class Patex {
                 }
                 this.matrizValues.get(line).add(word);
             }
-        }    
+        }
         parseColumnsWriteFile(outputFile);
         return;
     }
@@ -178,7 +178,7 @@ public class Patex {
             //Percorrendo o array list na posicao i
             for(int j=0; j<this.matrizValues.get(i).size(); j++){
                 outputFile.write(this.matrizValues.get(i).get(j) + this.delimiter);
-            }   
+            }
             outputFile.write("\n");
         }
         outputFile.close();
@@ -212,14 +212,16 @@ public class Patex {
 
 
     Boolean choseOutputFormat() throws Exception {
-        this.userOutputFormatChoice = JOptionPane.showInputDialog(null,
-            "How do you want the output format to be like ?",
-            "Select the output format",
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            this.outputFormatchoices,
-            this.outputFormatchoices[0]
-        );
+        if(!this.isOutputFormatChosen()){
+            this.userOutputFormatChoice = JOptionPane.showInputDialog(null,
+                "How do you want the output format to be like ?",
+                "Select the output format",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                this.outputFormatchoices,
+                this.outputFormatchoices[0]
+            );
+        }
         if(this.userOutputFormatChoice == null){
             throw new Exception("You must choose an output format. Try again.");
         }
@@ -238,6 +240,11 @@ public class Patex {
             else
                 throw new FileNotFoundException("No file was chosen");
         }
+        if(!this.chosenFile.exists()){
+            throw new FileNotFoundException("Couldnt find the provided file");
+        }
+
+        return;
     }
 
     void chooseDelimiter() throws DelimitadorInvalidoException{

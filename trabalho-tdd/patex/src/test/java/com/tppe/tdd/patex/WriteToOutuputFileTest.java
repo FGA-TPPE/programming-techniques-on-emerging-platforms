@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.junit.jupiter.api.Test;
 
-public class WriteToOutuputFileTest extends ChooseFile {
+public class WriteToOutuputFileTest extends ChooseFileTest {
     private File testFile;
 
     WriteToOutuputFileTest(){
@@ -40,6 +40,7 @@ public class WriteToOutuputFileTest extends ChooseFile {
         this.patexapp.readChosenFile();
         assertEquals(true, this.patexapp.writeToOutputFile());
     }
+
     @Test()
     void testWriteToOutputFile_Columns2() throws Exception {
         this.patexapp = new Patex("../analysisMemory.out", ";");
